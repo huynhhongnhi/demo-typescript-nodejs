@@ -1,19 +1,19 @@
-import express from 'express';
+import { Router } from 'express';
+
 import postController from '../controllers/postController';
 import courseController from '../controllers/courseController';
 import userController from '../controllers/userController';
 import userValidation from '../validations/userValidation';
 
-const router = express.Router();
+const router = Router();
 
 router.get('/posts', postController.getPosts);
 
-// Course
+// Courses
 router.get('/courses', courseController.getAllCourses);
 router.post('/courses', courseController.createCourse);
 router.get('/courses/:courseId', courseController.getDetailCourse);
 router.patch('/courses/:courseId', courseController.updateCourse);
-
 
 // User
 router.post('/auth/login', [ userValidation.LOGIN ], userController.login)

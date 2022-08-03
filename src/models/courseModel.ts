@@ -3,7 +3,6 @@ import { Schema, model } from 'mongoose';
 // Create course schema
 const courseSchema = new Schema(
     {
-        _id: Schema.Types.ObjectId,
         title: {
             type: String,
             required: true

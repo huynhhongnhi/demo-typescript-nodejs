@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import authHelper from "../helpers/authHelper";
 import userService from "../services/userService";
 
@@ -10,13 +10,13 @@ const login = async ( req: Request, res: Response ) => {
         const { email, password } = req.body
         const user = await userService.getFindUser({ email })
        
-        if( !user ) {
+        if ( !user ) {
             code = 409
             throw new Error("Email or password incorrect!")
         }
 
         const isMatch = await user.comparePassword(password)
-        if( !isMatch ){
+        if ( !isMatch ) {
             code = 401 
             throw new Error("Email or password incorrect!")
         }
@@ -32,10 +32,10 @@ const login = async ( req: Request, res: Response ) => {
 
     } catch (error: any) {
         let err                       = { error: 'error', message: error.message }
-            response.code             = code || 500
-            response.message          = error.message
-            response.internal_message = error.message
-            response.errors           = [ err ]
+        response.code             = code || 500
+        response.message          = error.message
+        response.internal_message = error.message
+        response.errors           = [ err ]
 
         return res.status(response.code).json(response)
     }

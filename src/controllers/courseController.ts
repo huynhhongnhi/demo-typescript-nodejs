@@ -4,28 +4,18 @@ import courseService from '../services/courseService';
 const getAllCourses = async (
         req: Request,
         res: Response,
-        next: NextFunction
     ) => {
-
-    const { search, genre } = req.query;
-
-    try {
-        const query: Object = {
-            // Search query provided
-            ...(search ? { $text: { $search: search || '' } } : undefined),
-            // Genre query provided
-            ...(genre ? { genre } : undefined)
-        };
-
-        const courses = await courseService.getAllCourse(query);
-
+    await courseService.getAllCourse().then((courses) => {
         return res.status(200).json({
             success: true,
-            message: courses
+            data: courses
+        })
+    }).catch((err) => {
+        return res.status(500).json({
+            success: false,
+            error: err.message
         });
-    } catch (e) {
-        next(e)
-    }
+    });
 };
 
 const createCourse = (
@@ -44,7 +34,6 @@ const createCourse = (
         });
     });
 };
-
 
 const getDetailCourse = (req: Request, res: Response) => {
     const id: String = req.params.courseId;
@@ -65,13 +54,14 @@ const updateCourse = (req: Request, res: Response) => {
     const id = req.params.courseId;
     const params = req.body;
 
-    courseService.updateCourse(id, params).then((newCourse) => {
+    courseService.updateCourse(id, params).then(() => {
         return res.status(200).json({
             success: true
         });
     }).catch((err) => {
         return res.status(500).json({
-            success: false
+            success: false,
+            error: err.message
         });
     });
 }
