@@ -19,5 +19,4 @@ try {
 } catch (error) {
     console.error(error);
     console.error(`Error occured: ${error}`);
-    console.error(error);
 }

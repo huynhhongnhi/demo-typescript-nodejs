@@ -17,5 +17,6 @@ router.patch('/courses/:courseId', courseController.updateCourse);
 
 // User
 router.post('/auth/login', [ userValidation.LOGIN ], userController.login)
+router.post('/auth/register', [ userValidation.REGISTER ], userController.register)
 
 export = router;

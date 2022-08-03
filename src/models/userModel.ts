@@ -1,29 +1,19 @@
-const bcrypt           = require('bcrypt'),
-      SALT_WORK_FACTOR = 12,
-      mongoose         = require('mongoose'),
-      Schema           = mongoose.Schema
+import bcrypt from "bcrypt";
+import mongoose, { Schema } from "mongoose";
+const saltWorkFactor = 12;
 
-const UserSchema = new Schema(
-    {
-        _id: mongoose.Schema.Types.ObjectId,
+const UserSchema = new Schema({
         username: {
             type: String,
-            required: true,
-            minlength: 1,
-            maxlength: 3000
+            required: true
         },
         email: {
             type: String,
-            required: true,
-            lowercase: true,
-            trim: true,
-            minlength: 1,
-            maxlength: 500
+            required: true
         },
         password: {
             type: String,
-            required: true,
-            maxlength: 100000,
+            required: true
         }
     }, {
         timestamps: true
@@ -40,17 +30,17 @@ UserSchema.methods.toResources = function() {
     }
 }
 
-UserSchema.methods.comparePassword = function(_password) {
+UserSchema.methods.comparePassword = function(_password: string) {
     return bcrypt.compareSync(_password, this.password);
 }
 
-UserSchema.pre('save', async function(next, UserSchema) {
+UserSchema.pre('save', async function(next, UserSchema: any) {
     if ( !UserSchema.isModified('password') ) return next()
     try {
-        const salt    = await bcrypt.genSalt(SALT_WORK_FACTOR)
+        const salt    = await bcrypt.genSalt(saltWorkFactor)
         UserSchema.password = await bcrypt.hash(UserSchema.password, salt)
         return next()
-    } catch (err) {
+    } catch (err: any) {
         return next(err)
     }
 })

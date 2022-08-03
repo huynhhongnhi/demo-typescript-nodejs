@@ -4,8 +4,7 @@ import { connect } from '../configs/database';
 connect();
 
 const getAllCourse = () => {
-    const courses = courseModel.find().select(`_id title description`);
-    return courses;
+    return courseModel.find().select(`_id title description`);
 };
 
 const createCourse = ( params ) => {
@@ -15,8 +14,7 @@ const createCourse = ( params ) => {
 };
 
 const getDetailCourse = (id: String) => {
-    const course = courseModel.findById(id);
-    return course;
+    return courseModel.findById(id);
 };
 
 const updateCourse = (id: String, params: Object) => {
