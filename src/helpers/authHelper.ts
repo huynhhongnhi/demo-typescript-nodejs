@@ -1,7 +1,7 @@
-const jwt = require('jsonwebtoken')
-const secret = process.env.JWT_SECRET || 'jsonwebtoken-secret'
+const jwt = require('jsonwebtoken');
+const secret = process.env.JWT_SECRET || 'jsonwebtoken-secret';
 
-let hashTokenAccess = async user => {
+const hashTokenAccess = async user => {
     return jwt.sign(user, secret, {
         "algorithm": "HS256",
         expiresIn: 864000

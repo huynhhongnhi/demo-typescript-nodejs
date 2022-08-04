@@ -6,7 +6,7 @@ export interface IUser extends Document {
     username: string;
     email: string;
     password: string;
-    toResources: () => void;
+    toResources: () => {};
     comparePassword: (password: string) => boolean;
   }
 
@@ -43,16 +43,16 @@ UserSchema.methods.comparePassword = function(_password: string) {
 }
 
 UserSchema.pre('save', async function(next) {
-    if ( !this.isModified('password') ) return next()
+    if ( !this.isModified('password') ) return next();
     try {
-        const salt    = await bcrypt.genSalt(saltWorkFactor)
-        this.password = await bcrypt.hash(this.password, salt)
-        return next()
-    } catch (err: any) {
-        return next(err)
+        const salt    = await bcrypt.genSalt(saltWorkFactor);
+        this.password = await bcrypt.hash(this.password, salt);
+        return next();
+    } catch (error) {
+        return next((error as Error));
     }
 })
 
-const User = mongoose.model<IUser>  ("User", UserSchema, "users")
+const User = mongoose.model<IUser>  ("User", UserSchema, "users");
 
 export default User;

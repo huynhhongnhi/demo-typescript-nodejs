@@ -5,18 +5,12 @@ import { connect } from '../configs/database';
 connect();
 
 const createUser = (params) => {
-    try {
-        const user = new User(params);
-        const createUser = user.save();
-        return createUser;
-    } catch (error) {
-        throw error;
-    }
+    const user = new User(params);
+    return user.save();
 };
 
 const getFindUser = (param) => {
-    const course = User.findOne(param);
-    return course;
+    return User.findOne(param);
 };
   
 export default {

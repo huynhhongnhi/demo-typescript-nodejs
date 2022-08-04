@@ -39,7 +39,7 @@ const login = async ( req: Request, res: Response ) => {
 const register = async ( req: Request, res: Response) => {
 
     let code = 500;
-    let response: { code?: number, data?: string[], message?: string } = {};
+    let response: { code?: number, data?: object, message?: string } = {};
 
     try {
         const { username, email, password } = req.body
@@ -77,7 +77,6 @@ const getUser = async ( req: any, res: Response ) => {
         let err                   = { error: 'error', message: (error as Error).message };
         response.code             = code || 500
         response.message          = (error as Error).message
-        response.errors           = [err]
         return res.status(response.code).json(response)
     }
 }

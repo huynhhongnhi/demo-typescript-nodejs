@@ -1,8 +1,8 @@
-import { Validator } from "node-input-validator"
-import errorHelper from "../helpers/errorHelper"
+import { Validator } from "node-input-validator";
+import errorHelper from "../helpers/errorHelper";
 
 const LOGIN = async function( req, res, next ) {
-
+    
     const validate = new Validator(req.body, {
         email   : "required|email|minLength:3|maxLength:500",
         password: "required|string|minLength:1|maxLength:1000",
