@@ -1,7 +1,14 @@
-const apiResponseErrorResource = function( req: any, res: any ){
+
+import { Request, Response } from 'express';
+
+interface RequestWithUserRole extends Request {
+    errors?: any,
+}
+
+const apiResponseErrorResource = function( req: RequestWithUserRole, res: Response) {
     const response: { code?: number, message?: string, errors?: object } = {}
-    if(req.errors){
-        const errors = Object.keys(req.errors).map( objKey => {
+    if (req.errors) {
+        const errors = Object.keys(req.errors as Request).map( objKey => {
             const error = req.errors[objKey];
             return { error: objKey, ...error }
         })

@@ -3,9 +3,9 @@ import jwt from "jsonwebtoken";
 
 const secret = process.env.JWT_SECRET || 'jsonwebtoken-secret';
 
-const isAuth = async (req: any, res: Response, next: NextFunction) => {
+const isAuth = async (req: Request, res: Response, next: NextFunction) => {
 
-    const response: any = {};
+    const response: { code?: number, message?: string } = {};
     let code = 401;
     let access =  req.headers["x-access-token"] || req.headers["authorization"] || req.query.token || req.body.token
 

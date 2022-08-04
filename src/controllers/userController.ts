@@ -63,7 +63,7 @@ const register = async ( req: Request, res: Response) => {
     }
 }
 
-const getUser = async ( req: any, res: Response ) => {
+const getUser = async ( req: Request, res: Response ) => {
     const response: { code?: number, data?: object, message?: string } = {};
     const code: number = 500;
     try {
