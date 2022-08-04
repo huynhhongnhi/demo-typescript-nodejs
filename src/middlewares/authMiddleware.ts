@@ -1,21 +1,30 @@
-import { Validator } from "node-input-validator"
-import errorHelper from "../helpers/errorHelper"
+import { Request, Response, NextFunction } from "express";
+import jwt from "jsonwebtoken";
 
-let LOGIN = async function( req, res, next ){
+const secret = process.env.JWT_SECRET || 'jsonwebtoken-secret'
 
-    let validate = new Validator(req.body, {
-        email   : "required|email|minLength:3|maxLength:500",
-        password: "required|string|minLength:1|maxLength:1000",
-    }, {
-        'title.required'     : ":attribute is required"
-    });
-     
-    let matched = await validate.check()
-    if (!matched) {
-        req.errors = validate.errors
-        return errorHelper.apiResponseErrorResource( req, res )
+const isAuth = async (req: any, res: Response, next: NextFunction) => {
+
+    const response: any = {};
+    let code = 401;
+    let access =  req.headers["x-access-token"] || req.headers["authorization"] || req.query.token || req.body.token
+
+    try {
+        if ( !access ) {
+            code = 403;
+            throw new Error('Unauthorized!!!');
+        }
+
+        access = access.replace('Bearer ','');
+        const user: any = await jwt.verify( access, secret );
+        req.user = user;
+        next(); 
+    } catch (error) {
+        response.code             = code || 401
+        response.message          = (error as Error).message || 'Unauthorized.'
+
+        return res.status(response.code).json(response);
     }
-    next()
 }
 
-export default { LOGIN }
+export default { isAuth };

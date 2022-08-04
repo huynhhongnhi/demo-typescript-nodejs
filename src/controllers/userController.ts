@@ -4,12 +4,12 @@ import userService from "../services/userService";
 
 const login = async ( req: Request, res: Response ) => {
 
-    let code = 500, response: any = {}
+    let code = 500;
+    const response: { code?: number, data?: { token?: string }, message?: string } = {}
 
     try {
         const { email, password } = req.body
         const user = await userService.getFindUser({ email })
-       
         if ( !user ) {
             code = 409
             throw new Error("Email or password incorrect!")
@@ -26,17 +26,12 @@ const login = async ( req: Request, res: Response ) => {
         response.code             = 200
         response.data             = { "token": strJWT }
         response.message          = "User login success"
-        response.internal_message = `Login success with email là ${email}`
 
         return res.status(response.code).json(response)
 
-    } catch (error: any) {
-        let err                       = { error: 'error', message: error.message }
+    } catch (error) {
         response.code             = code || 500
-        response.message          = error.message
-        response.internal_message = error.message
-        response.errors           = [ err ]
-
+        response.message          = (error as Error).message
         return res.status(response.code).json(response)
     }
 }
@@ -44,7 +39,7 @@ const login = async ( req: Request, res: Response ) => {
 const register = async ( req: Request, res: Response) => {
 
     let code = 500;
-    let response: any = {};
+    let response: { code?: number, data?: string[], message?: string } = {};
 
     try {
         const { username, email, password } = req.body
@@ -55,15 +50,36 @@ const register = async ( req: Request, res: Response) => {
         }
 
         const user = await userService.createUser({ username, email, password });
-        response.code             = 200
-        response.data             = user.toResources()
-        return res.status(response.code).json(response)
+        response.code             = 200;
+        response.message          = "success";
+        response.data             = user.toResources();
 
-    } catch (error: any) {
+        return res.status(response.code).json(response);
+
+    } catch (error) {
         response.code             = code || 500
-        response.message          = error.message
+        response.message          = (error as Error).message
         return res.status(response.code).json(response)
     }
 }
 
-export default { login, register };
+const getUser = async ( req: any, res: Response ) => {
+    const response: { code?: number, data?: object, message?: string } = {};
+    const code: number = 500;
+    try {
+        const { user } = req;
+        response.code             = 200;
+        response.data             = user;
+        response.message          = "success";
+        return res.status(response.code).json(response);
+
+    } catch (error) {
+        let err                   = { error: 'error', message: (error as Error).message };
+        response.code             = code || 500
+        response.message          = (error as Error).message
+        response.errors           = [err]
+        return res.status(response.code).json(response)
+    }
+}
+
+export default { login, register, getUser };
