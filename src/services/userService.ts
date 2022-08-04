@@ -1,11 +1,12 @@
-import User from "../models/userModel"
-const mongoose = require('mongoose');
+import * as mongoose from "mongoose";
+import User from "../models/userModel";
+import { connect } from '../configs/database';
+
+connect();
 
 const createUser = (params) => {
-    try {        
-        params._id = mongoose.Types.ObjectId();
-
-        const user = User(params);
+    try {
+        const user = new User(params);
         const createUser = user.save();
         return createUser;
     } catch (error) {

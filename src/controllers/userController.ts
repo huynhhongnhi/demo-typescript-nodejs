@@ -47,10 +47,7 @@ const register = async ( req: Request, res: Response) => {
     let response: any = {};
 
     try {
-        console.log("-----------------")
-        console.log(req.body)
         const { username, email, password } = req.body
-
         const isExist = await userService.getFindUser({ email })
         if ( isExist ) {
             code = 409
@@ -60,15 +57,11 @@ const register = async ( req: Request, res: Response) => {
         const user = await userService.createUser({ username, email, password });
         response.code             = 200
         response.data             = user.toResources()
-
         return res.status(response.code).json(response)
 
-    } catch (error) {
-        console.log(error)
+    } catch (error: any) {
         response.code             = code || 500
-        response.message          = error
-        response.errors           = error
-
+        response.message          = error.message
         return res.status(response.code).json(response)
     }
 }

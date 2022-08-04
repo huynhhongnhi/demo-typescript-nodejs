@@ -2,6 +2,14 @@ import bcrypt from "bcrypt";
 import mongoose, { Schema } from "mongoose";
 const saltWorkFactor = 12;
 
+export interface IUser extends Document {
+    username: string;
+    email: string;
+    password: string;
+    toResources: () => void;
+    comparePassword: (password: string) => boolean;
+  }
+
 const UserSchema = new Schema({
         username: {
             type: String,
@@ -34,17 +42,17 @@ UserSchema.methods.comparePassword = function(_password: string) {
     return bcrypt.compareSync(_password, this.password);
 }
 
-UserSchema.pre('save', async function(next, UserSchema: any) {
-    if ( !UserSchema.isModified('password') ) return next()
+UserSchema.pre('save', async function(next) {
+    if ( !this.isModified('password') ) return next()
     try {
         const salt    = await bcrypt.genSalt(saltWorkFactor)
-        UserSchema.password = await bcrypt.hash(UserSchema.password, salt)
+        this.password = await bcrypt.hash(this.password, salt)
         return next()
     } catch (err: any) {
         return next(err)
     }
 })
 
-const User = mongoose.model("users", UserSchema)
+const User = mongoose.model<IUser>  ("User", UserSchema, "users")
 
 export default User;
