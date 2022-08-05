@@ -18,3 +18,5 @@ const validate = (schemas) => {
         });
     };
 }
+
+export default { validate }

@@ -7,21 +7,21 @@ const getAllCourse = () => {
     return courseModel.find().select(`_id title description`);
 };
 
-const createCourse = ( params ) => {
+const createCourse = ( params: object ) => {
     const course = new courseModel(params);
     const createCourse = course.save();
     return createCourse;
 };
 
-const getDetailCourse = (id: String) => {
+const getDetailCourse = (id: string) => {
     return courseModel.findById(id);
 };
 
-const updateCourse = (id: String, params: Object) => {
+const updateCourse = (id: string, params: object) => {
     return courseModel.updateOne({ _id: id }, { $set:params });
 };
 
-const deleteCourse = (id: String) => {
+const deleteCourse = (id: string) => {
     return courseModel.deleteOne({_id: id});
 };
 
