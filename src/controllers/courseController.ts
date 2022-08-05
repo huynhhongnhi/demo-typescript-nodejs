@@ -1,20 +1,15 @@
 import { Request, Response, NextFunction } from 'express';
 import courseService from '../services/courseService';
+import responseJson from "../commons/responseJson";
 
 const getAllCourses = async (
         req: Request,
         res: Response,
     ) => {
     await courseService.getAllCourse().then((courses) => {
-        return res.status(200).json({
-            success: true,
-            data: courses
-        })
+        return responseJson.success(200, courses, res);
     }).catch((err) => {
-        return res.status(500).json({
-            success: false,
-            error: err.message
-        });
+        return responseJson.error(500, err.message, err, res);
     });
 };
 
@@ -23,30 +18,18 @@ const createCourse = (
     res: Response
 ) => {
     courseService.createCourse(req.body).then((newCourse) => {
-        return res.status(200).json({
-            success: true,
-            data: newCourse,
-        });
+        return responseJson.success(200, newCourse, res);
     }).catch((err) => {
-        return res.status(500).json({
-            success: 500,
-            error: err.message
-        });
+        return responseJson.error(500, err.message, err, res);
     });
 };
 
 const getDetailCourse = (req: Request, res: Response) => {
     const id: String = req.params.courseId;
     courseService.getDetailCourse(id).then((singleCourse) => {
-        return res.status(200).json({
-            success: true,
-            data: singleCourse,
-        });
+        return responseJson.success(200, singleCourse, res);
     }).catch((err) => {
-        return res.status(500).json({
-            success: 500,
-            error: err.message
-        });
+        return responseJson.error(500, err.message, err, res);
     })
 };
 
@@ -55,14 +38,9 @@ const updateCourse = (req: Request, res: Response) => {
     const params = req.body;
 
     courseService.updateCourse(id, params).then(() => {
-        return res.status(200).json({
-            success: true
-        });
+        return responseJson.success(200, {}, res);
     }).catch((err) => {
-        return res.status(500).json({
-            success: false,
-            error: err.message
-        });
+        return responseJson.error(500, err.message, err, res);
     });
 }
 

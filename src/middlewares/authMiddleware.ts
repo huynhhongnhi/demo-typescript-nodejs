@@ -1,9 +1,12 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-
 const secret = process.env.JWT_SECRET || 'jsonwebtoken-secret';
 
-const isAuth = async (req: Request, res: Response, next: NextFunction) => {
+interface RequestWithUserRole extends Request {
+    user?: any,
+}
+
+const isAuth = async (req: RequestWithUserRole, res: Response, next: NextFunction) => {
 
     const response: { code?: number, message?: string } = {};
     let code = 401;
@@ -16,13 +19,12 @@ const isAuth = async (req: Request, res: Response, next: NextFunction) => {
         }
 
         access = access.replace('Bearer ','');
-        const user: any = await jwt.verify( access, secret );
+        const user = await jwt.verify( access, secret );
         req.user = user;
         next(); 
     } catch (error) {
         response.code             = code || 401
         response.message          = (error as Error).message || 'Unauthorized.'
-
         return res.status(response.code).json(response);
     }
 }

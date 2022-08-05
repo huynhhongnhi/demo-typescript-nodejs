@@ -2,6 +2,10 @@ import { Request, Response } from "express";
 import authHelper from "../helpers/authHelper";
 import userService from "../services/userService";
 
+interface RequestWithUserRole extends Request {
+    user?: any,
+}
+
 const login = async ( req: Request, res: Response ) => {
 
     let code = 500;
@@ -63,7 +67,7 @@ const register = async ( req: Request, res: Response) => {
     }
 }
 
-const getUser = async ( req: Request, res: Response ) => {
+const getUser = async ( req: RequestWithUserRole, res: Response ) => {
     const response: { code?: number, data?: object, message?: string } = {};
     const code: number = 500;
     try {
