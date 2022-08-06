@@ -1,19 +1,18 @@
 import * as mongoose from "mongoose";
 import User from "../models/userModel";
-import { connect } from '../configs/database';
 
-connect();
+class UserService {
+    
+    public createUser = (params) => {
+        const user = new User(params);
+        return user.save();
+    };
 
-const createUser = (params) => {
-    const user = new User(params);
-    return user.save();
-};
+    public getFindUser = (param) => {
+        return User.findOne(param);
+    };
 
-const getFindUser = (param) => {
-    return User.findOne(param);
-};
+}
   
-export default {
-    createUser,
-    getFindUser
-};
+const userService = new UserService();
+export { userService };

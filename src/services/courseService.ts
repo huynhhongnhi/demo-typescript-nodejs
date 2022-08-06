@@ -1,34 +1,31 @@
 import courseModel from '../models/courseModel';
-import { connect } from '../configs/database';
 
-connect();
 
-const getAllCourse = () => {
-    return courseModel.find().select(`_id title description`);
-};
+class CourseService {
 
-const createCourse = ( params: object ) => {
-    const course = new courseModel(params);
-    const createCourse = course.save();
-    return createCourse;
-};
+    public getAllCourse() {
+        return courseModel.find().select(`_id title description`);
+    };
 
-const getDetailCourse = (id: string) => {
-    return courseModel.findById(id);
-};
+    public createCourse( params: object ) {
+        const course = new courseModel(params);
+        const createCourse = course.save();
+        return createCourse;
+    };
 
-const updateCourse = (id: string, params: object) => {
-    return courseModel.updateOne({ _id: id }, { $set:params });
-};
+    public getDetailCourse = (id: string) => {
+        return courseModel.findById(id);
+    };
 
-const deleteCourse = (id: string) => {
-    return courseModel.deleteOne({_id: id});
-};
+    public updateCourse = (id: string, params: object) => {
+        return courseModel.updateOne({ _id: id }, { $set:params });
+    };
 
-export default {
-    getAllCourse,
-    createCourse,
-    getDetailCourse,
-    updateCourse,
-    deleteCourse
-};
+    public deleteCourse = (id: string) => {
+        return courseModel.deleteOne({_id: id});
+    };
+
+}
+
+const courseService = new CourseService();
+export { courseService };

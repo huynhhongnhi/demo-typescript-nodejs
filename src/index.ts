@@ -1,6 +1,10 @@
 import express, { Application } from "express";
 import apiRouter from "./routes/apiRoutes";
 
+import { connect } from './configs/database';
+
+connect();
+
 const app: Application = express();
 const port = 6061;
 

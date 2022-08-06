@@ -1,8 +1,8 @@
 import { Router } from 'express';
 
-import postController from '../controllers/postController';
-import courseController from '../controllers/courseController';
-import userController from '../controllers/userController';
+import { postController } from '../controllers/postController';
+import { courseController } from '../controllers/courseController';
+import { userController } from '../controllers/userController';
 import userValidation from '../validations/userValidation';
 import authMiddleware from '../middlewares/authMiddleware';
 
