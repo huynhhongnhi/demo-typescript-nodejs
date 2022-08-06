@@ -1,6 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
-import { courseService } from '../services/courseService';
+import { courseService } from '../services/course.service';
 import responseJson from "../commons/responseJson";
+import { Course, BaseCourse } from "../interfaces/course.interface";
+import { Courses } from "../interfaces/courses.interface";
 
 class CourseController {
 

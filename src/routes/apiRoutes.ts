@@ -1,9 +1,9 @@
 import { Router } from 'express';
 
-import { postController } from '../controllers/postController';
-import { courseController } from '../controllers/courseController';
-import { userController } from '../controllers/userController';
-import userValidation from '../validations/userValidation';
+import { postController } from '../controllers/post.controller';
+import { courseController } from '../controllers/course.controller';
+import { userController } from '../controllers/user.controller';
+import userValidation from '../validations/user.validation';
 import authMiddleware from '../middlewares/authMiddleware';
 
 const router = Router();

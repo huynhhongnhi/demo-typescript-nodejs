@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import authHelper from "../helpers/authHelper";
-import { userService } from "../services/userService";
+import { userService } from "../services/user.service";
 
 interface RequestWithUserRole extends Request {
     user?: any,

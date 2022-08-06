@@ -1,4 +1,4 @@
-import courseModel from '../models/courseModel';
+import courseModel from '../models/course.model';
 
 
 class CourseService {

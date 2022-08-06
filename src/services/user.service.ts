@@ -1,5 +1,5 @@
 import * as mongoose from "mongoose";
-import User from "../models/userModel";
+import User from "../models/user.model";
 
 class UserService {
     
