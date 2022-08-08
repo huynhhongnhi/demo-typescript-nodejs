@@ -1,5 +1,10 @@
 import courseModel from '../models/course.model';
 
+interface CourseInterface {
+    title: number,
+    description: number
+}
+
 
 class CourseService {
 
@@ -7,8 +12,8 @@ class CourseService {
         return courseModel.find().select(`_id title description`);
     };
 
-    public createCourse( params: object ) {
-        const course = new courseModel(params);
+    public createCourse( { title, description }: CourseInterface) {
+        const course = new courseModel({ title, description });
         const createCourse = course.save();
         return createCourse;
     };

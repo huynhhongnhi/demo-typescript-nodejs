@@ -1,14 +1,13 @@
-import * as mongoose from "mongoose";
 import User from "../models/user.model";
 
 class UserService {
     
-    public createUser = (params) => {
+    public createUser(params: object) {
         const user = new User(params);
         return user.save();
     };
 
-    public getFindUser = (param) => {
+    public getFindUser(param: object) {
         return User.findOne(param);
     };
 
