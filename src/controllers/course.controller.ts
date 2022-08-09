@@ -8,20 +8,24 @@ class CourseController {
 
     // list
     public async getAllCourses(req: Request, res: Response) {
+
         await courseService.getAllCourse().then((courses) => {
             return responseJson.success(200, courses, res);
         }).catch((err) => {
             return responseJson.error(500, err.message, err, res);
         });
+
     }
 
     // create
-    public async createCourse(req: Request, res: Response) {
+    public async createCourse(req: Request, res: Response) {        
+
         courseService.createCourse(req.body).then((newCourse) => {
             return responseJson.success(200, newCourse, res);
         }).catch((err) => {
             return responseJson.error(500, err.message, err, res);
         });
+        
     };
 
     // detail

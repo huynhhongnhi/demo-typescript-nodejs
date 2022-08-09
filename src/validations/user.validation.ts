@@ -1,7 +1,12 @@
 import { Validator } from "node-input-validator";
 import errorHelper from "../helpers/errorHelper";
+import { NextFunction, Request, Response } from "express";
 
-const LOGIN = async function( req, res, next ) {
+interface RequestWithUserRole extends Request {
+    errors?: any,
+}
+
+const LOGIN = async function( req: RequestWithUserRole, res: Response, next: NextFunction ) {
     
     const validate = new Validator(req.body, {
         email   : "required|email|minLength:3|maxLength:500",
